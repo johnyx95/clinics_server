@@ -11,17 +11,6 @@ var clinic_info = " Clinic.id, Clinic.logo_url, Clinic.name, Clinic.rating, Clin
 var clinic_info_wth_id = " Clinic.logo_url, Clinic.name, Clinic.rating, Clinic.short_description," +
     "Clinic.full_description, Clinic.location, Clinic.has_parking_lot, Clinic.has_epay, Clinic.speak_english," +
     "Clinic.has_wifi, Clinic.has_pharamcy, Clinic.has_children_room, Clinic.has_invalid ";
-var clinic_full_inf = " Clinic.logo_url, Clinic.name, Clinic.rating, Clinic.short_description, Clinic.full_description " +
-    ",Clinic.has_parking_lot, Clinic.has_epay, Clinic.speak_english, Clinic.has_wifi, Clinic.has_pharamcy " +
-    ",Clinic.has_children_room, Clinic.has_invalid, Specialization.name, District.name, Location.address, Location.longitude " +
-    ",Location.latitude, Metro.line, Metro.name, Worktime.day_interval, Worktime.time_interval, Photo.url ";
-var clinic_full_info_join = " left join Worktime on Worktime.clinic_id = Clinic.id " +
-    "left join Specilizations on Specilizations.clinic_id = Clinic.id " +
-    "left join Specialization on Specialization.id = Specilizations.specializtion_id " +
-    "left join Location on Location.id = Clinic.location " +
-    "left join District on District.id = Location.district_id " +
-    "left join Metro on Metro.id = Location.metro_id " +
-    "left join Photo on Photo.clinic_id = Clinic.id ";
 
 restapi.use(pretty({query: 'pretty'}));
 restapi.route('/clinic_full_info')
@@ -82,7 +71,7 @@ restapi.route('/clinic_full_info')
                 var sqlRequest = 'select Worktime.time_interval, Worktime.day_interval from Worktime ' +
                     'left join Clinic on Clinic.id = Worktime.clinic_id ' +
                     'where Clinic.id =' + clinicId;
-                db.get(sqlRequest, function (err, row) {
+                db.all(sqlRequest, function (err, row) {
                     response.worktime = row;
                     callback();
                 })
@@ -146,7 +135,7 @@ restapi.route('/clinics_services_districts')
             res.json({"data": row})
         });
 
-        console.log("finish get start get clinic_info with district, services option");
+        console.log("finish get clinic_info with district, services option");
 
     });
 restapi.route('/clinics_services_rating')
