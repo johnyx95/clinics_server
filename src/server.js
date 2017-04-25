@@ -141,7 +141,7 @@ restapi.route('/clinics_services_districts')
 restapi.route('/clinics_services_rating')
     .get(function (req, res) {
         console.log("start get start get clinic_info with rating, services option");
-        var page = 1;
+        var numPage;
         var specializationId;
         if (res.req.query.specialization_id)
             specializationId = res.req.query.specialization_id;
@@ -149,8 +149,8 @@ restapi.route('/clinics_services_rating')
         if (res.req.query.rating_id)
             rating = res.req.query.rating_id;
         if (res.req.query.num_page)
-            page = res.req.query.num_page;
-        var num = 20 * page;
+            numPage = res.req.query.num_page;
+        var num = 20 * (numPage - 1);
         if (!specializationId && (!rating))
             var sqlRequest = 'SELECT' + clinic_info + 'FROM Clinic ';
         else {
@@ -189,11 +189,11 @@ restapi.route('/clinics_services_rating')
 restapi.route('/clinics_metro_name')
     .get(function (req, res) {
         console.log("start get start get clinic_info with metro_name option");
-        var page = 1;
+        var numPage;
         var metroId;
         if (res.req.query.num_page)
-            page = res.req.query.num_page;
-        var num = 20 * page;
+            numPage = res.req.query.num_page;
+        var num = 20 * (numPage - 1);
         if (res.req.query.metro_id)
             metroId = res.req.query.metro_id;
         if (!metroId)
